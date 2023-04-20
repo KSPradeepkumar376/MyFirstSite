@@ -74,4 +74,4 @@ def ProjectDetails(request,idx):
     personaldetail = Personaldetailsmodels.objects.get(id=1)
     SocialMedia = SocialModel.objects.all().filter(SocialMedia_id=1)
     for i in Projects:
-        return render(request, 'Projects/'+i.Projectlink,{'personaldetails': personaldetail,'Projects':Projects,'SocialMedia':SocialMedia})
+        return render(request, 'RPAResume/ProjectDetails.html',{'personaldetails': personaldetail,'Projects':Projects,'SocialMedia':SocialMedia})
