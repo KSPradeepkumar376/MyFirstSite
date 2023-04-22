@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 import sqlite3
 # import reverse
 
@@ -35,7 +36,6 @@ class Personaldetailsmodels(models.Model):
         """String for representing the Model object."""
         # return f'{self.PhoneNumber}, {self.City}'
         return f'{self.id}'
-
 
 class SkillsModel(models.Model):
     id = models.AutoField(auto_created = True,primary_key=True, help_text='Unique ID for this particular book across whole library')
@@ -126,7 +126,7 @@ class TestimonialsModel(models.Model):
         db_table = 'Testimonials'
         # fields = '__all__'
 
-class knowledgeModel(models.Model):
+class KnowledgeModel(models.Model):
     id = models.AutoField(auto_created = True,primary_key=True, help_text='Unique ID for this particular book across whole library')
     knowledgeModel_id = models.ForeignKey(Personaldetailsmodels,null=True,on_delete=models.CASCADE)
     knowledge = models.CharField(max_length=254, default=None, null=False)
@@ -138,7 +138,7 @@ class knowledgeModel(models.Model):
 class ProjectsModel(models.Model):
     id = models.AutoField(auto_created = True,primary_key=True, help_text='Unique ID for this particular book across whole library')
     Pic = models.URLField(max_length=254, default=None, null=False)
-    Projectlink= models.URLField(max_length=254, default=None, null=False)
+    Projectlink = models.URLField(max_length=254, default=None, null=False)
     ProjectSkill = models.CharField(max_length=254, default=None, null=False)
     ProjectTitle = models.CharField(max_length=254, null=False)
     Projects_id = models.ForeignKey(Personaldetailsmodels, null=True, on_delete=models.CASCADE)
@@ -147,7 +147,7 @@ class ProjectsModel(models.Model):
         db_table = 'Projects'
         # fields = '__all__'
 
-class commentsModel(models.Model):
+class CommentsModel(models.Model):
     id = models.AutoField(auto_created = True,primary_key=True, help_text='Unique ID for this particular book across whole library')
     comments_id = models.ForeignKey(Personaldetailsmodels,null=True,on_delete=models.CASCADE)
     comments1 = models.CharField(max_length=99999, default=None, null=True)
@@ -165,3 +165,21 @@ class commentsModel(models.Model):
         db_table = 'comments'
         # fields = '__all__'
 
+class ProjectDetailsModel(models.Model):
+    id = models.AutoField(auto_created = True,primary_key=True, help_text='Unique ID for this particular book across whole library')
+    Client = models.TextField(default=None, null=False)
+    ProcessName= models.TextField(default=None, null=False)
+    Role = models.TextField(default=None, null=False)
+    Duration = models.TextField(null=False)
+    Tools = models.TextField(null=False)
+    comments1 = models.TextField(default=None, null=True)
+    # board = ArrayField(ArrayField(models.TextField(default=list(), blank=True), size=5, ), size=1, )
+    board = ArrayField(models.TextField(default=None, null=True), size=5, )
+    # board = ArrayField(models.TextField(), size=5, )
+    projectdetails_id = models.ForeignKey(ProjectsModel, null=True, on_delete=models.CASCADE)
+    objects = models.Manager()
+    class Meta:
+        db_table = 'Projectdetails'
+        # fields = '__all__'
+        def __init__(self, board: list):
+            self.board = board
