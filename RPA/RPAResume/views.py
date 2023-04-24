@@ -44,9 +44,9 @@ def Dpersonaldetails(request):
         Experience = ExperienceModel.objects.all().filter(Experience_id=1).order_by("-id")
         SocialMedia = SocialModel.objects.all().filter(SocialMedia_id=1)
         Testimonials = TestimonialsModel.objects.all().filter(Testimonials_id=1).order_by("id")
-        Knowledge = knowledgeModel.objects.all().filter(knowledgeModel_id=1).order_by("-id")
+        Knowledge = KnowledgeModel.objects.all().filter(knowledgeModel_id=1).order_by("-id")
         Projects = ProjectsModel.objects.all().filter(Projects_id=1).order_by("-id")
-        Comments = commentsModel.objects.get(comments_id=1)
+        Comments = CommentsModel.objects.get(comments_id=1)
         if request.method == 'POST':
             name = request.POST.get('name')
             email = request.POST.get('email')
@@ -67,14 +67,18 @@ def Dpersonaldetails(request):
             send_mail('You got a mail!', message, '', ['pppradeepkumar376@gmail.com'])
     except Personaldetailsmodels.DoesNotExist:
         raise Http404("ID does not exist")
-    return render(request, 'RPAResume/Resume-index.html', {'personaldetails': personaldetail,'Skills': skills,'Education':Education,'NTechnical':NTechnical,'Technical':Technical,'Experience':Experience,'SocialMedia':SocialMedia,'Testimonials':Testimonials,'knowledge':knowledge,'Projects':Projects,'comments':comments})
+    return render(request, 'RPAResume/Resume-index.html', {'personaldetails': personaldetail,'Skills': skills,'Education':Education,'NTechnical':NTechnical,'Technical':Technical,'Experience':Experience,'SocialMedia':SocialMedia,'Testimonials':Testimonials,'knowledge':Knowledge,'Projects':Projects,'comments':Comments})
 def ProjectDetails(request,idx):
     Projects = ProjectsModel.objects.all().filter(id=idx)
     personaldetail = Personaldetailsmodels.objects.get(id=1)
     SocialMedia = SocialModel.objects.all().filter(SocialMedia_id=1)
     ProjectDetail=ProjectDetailsModel.objects.all().filter(projectdetails_id=idx)
+    ProjectList = ""
     for j in ProjectDetail:
-        con = j.board
-        con = con.split("@")
+        if j.board=="":
+            ProjectList=""
+        else:
+            ProjectList = j.board.split("@")
+
     for i in Projects:
-        return render(request, 'RPAResume/ProjectDetails.html',{'personaldetails': personaldetail,'Projects':Projects,'SocialMedia':SocialMedia,'ProjectDetail':ProjectDetail,'con':con})
+        return render(request, 'RPAResume/ProjectDetails.html',{'personaldetails': personaldetail,'Projects':Projects,'SocialMedia':SocialMedia,'ProjectDetail':ProjectDetail,'ProjectList':ProjectList})

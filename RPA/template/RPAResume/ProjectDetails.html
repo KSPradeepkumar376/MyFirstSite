@@ -92,13 +92,13 @@
               <p>
                 {{ProjectDetails.comments1}}
               </p>
-			  
+			  {% endfor %}
 			  
 			<table class="table table-row table-hover table-striped">
 			
 				<tr><td>
-				{% for data in con %}
-				<li>{{data}}</li>
+				{% for data in ProjectList %}
+					<li>{{data}}</li>
 				{% endfor %}
 				</td></tr>
 				</tr>
@@ -106,7 +106,7 @@
 			
             </div>
           </div>
-			
+			{% for ProjectDetails in ProjectDetail %}
           <div class="col-lg-4">
             <div class="portfolio-info">
               <h3>Project information</h3>
